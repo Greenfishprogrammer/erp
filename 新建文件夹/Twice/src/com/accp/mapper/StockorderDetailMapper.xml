@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.StockorderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.pojo.StockorderDetail" >
+    <id column="tb_line_id" property="tbLineId" jdbcType="INTEGER" />
+    <result column="tb_billno" property="tbBillno" jdbcType="VARCHAR" />
+    <result column="tb_prodname" property="tbProdname" jdbcType="VARCHAR" />
+    <result column="tb_amount" property="tbAmount" jdbcType="DOUBLE" />
+    <result column="tb_price" property="tbPrice" jdbcType="DOUBLE" />
+    <result column="tb_money_amt" property="tbMoneyAmt" jdbcType="DOUBLE" />
+    <result column="tb_ispresent" property="tbIspresent" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tb_line_id, tb_billno, tb_prodname, tb_amount, tb_price, tb_money_amt, tb_ispresent
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stockorder_detail
+    where tb_line_id = #{tbLineId,jdbcType=INTEGER}
+  </select>
+  <update id="updates">
+    <foreach collection="list" index="index" item="item" separator=";">
+      update stockorder_detail set
+      tb_prodname =#{item.tb_prodname},
+      tb_amount =#{item.tb_amount},
+      tb_price =#{item.tb_price},
+      tb_money_amt =#{item.tb_money_amt},
+      tb_ispresent =#{item.tb_ispresent}
+      where  tb_billno =#{item.billno}
+    </foreach>
+
+  </update>
+  <delete id="deleteBybillno">
+    delete from stockorder_detail where tb_billno =#{item.billno}
+  </delete>
+  <select id="queryDetail" resultMap="BaseResultMap">
+    select * from stockorder_detail
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stockorder_detail
+    where tb_line_id = #{tbLineId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.accp.pojo.StockorderDetail" >
+    insert into stockorder_detail (tb_line_id, tb_billno, tb_prodname, 
+      tb_amount, tb_price, tb_money_amt, 
+      tb_ispresent)
+    values (#{tbLineId,jdbcType=INTEGER}, #{tbBillno,jdbcType=VARCHAR}, #{tbProdname,jdbcType=VARCHAR}, 
+      #{tbAmount,jdbcType=DOUBLE}, #{tbPrice,jdbcType=DOUBLE}, #{tbMoneyAmt,jdbcType=DOUBLE}, 
+      #{tbIspresent,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.pojo.StockorderDetail" >
+    insert into stockorder_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tbLineId != null" >
+        tb_line_id,
+      </if>
+      <if test="tbBillno != null" >
+        tb_billno,
+      </if>
+      <if test="tbProdname != null" >
+        tb_prodname,
+      </if>
+      <if test="tbAmount != null" >
+        tb_amount,
+      </if>
+      <if test="tbPrice != null" >
+        tb_price,
+      </if>
+      <if test="tbMoneyAmt != null" >
+        tb_money_amt,
+      </if>
+      <if test="tbIspresent != null" >
+        tb_ispresent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tbLineId != null" >
+        #{tbLineId,jdbcType=INTEGER},
+      </if>
+      <if test="tbBillno != null" >
+        #{tbBillno,jdbcType=VARCHAR},
+      </if>
+      <if test="tbProdname != null" >
+        #{tbProdname,jdbcType=VARCHAR},
+      </if>
+      <if test="tbAmount != null" >
+        #{tbAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="tbPrice != null" >
+        #{tbPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="tbMoneyAmt != null" >
+        #{tbMoneyAmt,jdbcType=DOUBLE},
+      </if>
+      <if test="tbIspresent != null" >
+        #{tbIspresent,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.pojo.StockorderDetail" >
+    update stockorder_detail
+    <set >
+      <if test="tbBillno != null" >
+        tb_billno = #{tbBillno,jdbcType=VARCHAR},
+      </if>
+      <if test="tbProdname != null" >
+        tb_prodname = #{tbProdname,jdbcType=VARCHAR},
+      </if>
+      <if test="tbAmount != null" >
+        tb_amount = #{tbAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="tbPrice != null" >
+        tb_price = #{tbPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="tbMoneyAmt != null" >
+        tb_money_amt = #{tbMoneyAmt,jdbcType=DOUBLE},
+      </if>
+      <if test="tbIspresent != null" >
+        tb_ispresent = #{tbIspresent,jdbcType=INTEGER},
+      </if>
+    </set>
+    where tb_line_id = #{tbLineId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.pojo.StockorderDetail" >
+    update stockorder_detail
+    set tb_billno = #{tbBillno,jdbcType=VARCHAR},
+      tb_prodname = #{tbProdname,jdbcType=VARCHAR},
+      tb_amount = #{tbAmount,jdbcType=DOUBLE},
+      tb_price = #{tbPrice,jdbcType=DOUBLE},
+      tb_money_amt = #{tbMoneyAmt,jdbcType=DOUBLE},
+      tb_ispresent = #{tbIspresent,jdbcType=INTEGER}
+    where tb_line_id = #{tbLineId,jdbcType=INTEGER}
+  </update>
+</mapper>

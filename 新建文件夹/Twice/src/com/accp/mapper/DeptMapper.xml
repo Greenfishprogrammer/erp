@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.DeptMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.pojo.Dept" >
+    <id column="tb_deptno" property="tbDeptno" jdbcType="VARCHAR" />
+    <result column="tb_deptname" property="tbDeptname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tb_deptno, tb_deptname
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from dept
+    where tb_deptno = #{tbDeptno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from dept
+    where tb_deptno = #{tbDeptno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.accp.pojo.Dept" >
+    insert into dept (tb_deptno, tb_deptname)
+    values (#{tbDeptno,jdbcType=VARCHAR}, #{tbDeptname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.pojo.Dept" >
+    insert into dept
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tbDeptno != null" >
+        tb_deptno,
+      </if>
+      <if test="tbDeptname != null" >
+        tb_deptname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tbDeptno != null" >
+        #{tbDeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="tbDeptname != null" >
+        #{tbDeptname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.pojo.Dept" >
+    update dept
+    <set >
+      <if test="tbDeptname != null" >
+        tb_deptname = #{tbDeptname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tb_deptno = #{tbDeptno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.pojo.Dept" >
+    update dept
+    set tb_deptname = #{tbDeptname,jdbcType=VARCHAR}
+    where tb_deptno = #{tbDeptno,jdbcType=VARCHAR}
+  </update>
+</mapper>

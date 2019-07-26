@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.PersonMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.pojo.Person" >
+    <id column="tb_personno" property="tbPersonno" jdbcType="VARCHAR" />
+    <result column="tb_personname" property="tbPersonname" jdbcType="VARCHAR" />
+    <result column="tb_deptno" property="tbDeptno" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tb_personno, tb_personname, tb_deptno
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from person
+    where tb_personno = #{tbPersonno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from person
+    where tb_personno = #{tbPersonno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.accp.pojo.Person" >
+    insert into person (tb_personno, tb_personname, tb_deptno
+      )
+    values (#{tbPersonno,jdbcType=VARCHAR}, #{tbPersonname,jdbcType=VARCHAR}, #{tbDeptno,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.pojo.Person" >
+    insert into person
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tbPersonno != null" >
+        tb_personno,
+      </if>
+      <if test="tbPersonname != null" >
+        tb_personname,
+      </if>
+      <if test="tbDeptno != null" >
+        tb_deptno,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tbPersonno != null" >
+        #{tbPersonno,jdbcType=VARCHAR},
+      </if>
+      <if test="tbPersonname != null" >
+        #{tbPersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="tbDeptno != null" >
+        #{tbDeptno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.pojo.Person" >
+    update person
+    <set >
+      <if test="tbPersonname != null" >
+        tb_personname = #{tbPersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="tbDeptno != null" >
+        tb_deptno = #{tbDeptno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tb_personno = #{tbPersonno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.pojo.Person" >
+    update person
+    set tb_personname = #{tbPersonname,jdbcType=VARCHAR},
+      tb_deptno = #{tbDeptno,jdbcType=VARCHAR}
+    where tb_personno = #{tbPersonno,jdbcType=VARCHAR}
+  </update>
+</mapper>

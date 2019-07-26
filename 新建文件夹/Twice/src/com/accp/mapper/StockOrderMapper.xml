@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.StockOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.pojo.StockOrder" >
+    <id column="tb_billno" property="tbBillno" jdbcType="VARCHAR" />
+    <result column="tb_billdate" property="tbBilldate" jdbcType="DATE" />
+    <result column="tb_customer" property="tbCustomer" jdbcType="VARCHAR" />
+    <result column="tb_customer_address" property="tbCustomerAddress" jdbcType="VARCHAR" />
+    <result column="tb_buyer" property="tbBuyer" jdbcType="VARCHAR" />
+    <result column="tb_maker" property="tbMaker" jdbcType="VARCHAR" />
+    <result column="tb_deptname" property="tbDeptname" jdbcType="VARCHAR" />
+    <result column="tb_permitter" property="tbPermitter" jdbcType="VARCHAR" />
+    <result column="tb_permit_date" property="tbPermitDate" jdbcType="DATE" />
+    <result column="tb_creat_time" property="tbCreatTime" jdbcType="DATE" />
+    <result column="tb_remark" property="tbRemark" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="base" type="com.accp.pojo.StockOrder" >
+    <id column="tb_billno" property="tbBillno" jdbcType="VARCHAR" />
+    <result column="tb_billdate" property="tbBilldate" jdbcType="DATE" />
+    <result column="tb_customer" property="tbCustomer" jdbcType="VARCHAR" />
+    <result column="tb_customer_address" property="tbCustomerAddress" jdbcType="VARCHAR" />
+    <result column="tb_buyer" property="tbBuyer" jdbcType="VARCHAR" />
+    <result column="tb_maker" property="tbMaker" jdbcType="VARCHAR" />
+    <result column="tb_deptname" property="tbDeptname" jdbcType="VARCHAR" />
+    <result column="tb_permitter" property="tbPermitter" jdbcType="VARCHAR" />
+    <result column="tb_permit_date" property="tbPermitDate" jdbcType="DATE" />
+    <result column="tb_creat_time" property="tbCreatTime" jdbcType="DATE" />
+    <result column="tb_remark" property="tbRemark" jdbcType="VARCHAR" />
+    <collection property="details" ofType="com.accp.pojo.StockorderDetail">
+      <id column="tb_line_id" property="tbLineId" jdbcType="INTEGER" />
+      <result column="tb_billno" property="tbBillno" jdbcType="VARCHAR" />
+      <result column="tb_prodname" property="tbProdname" jdbcType="VARCHAR" />
+      <result column="tb_amount" property="tbAmount" jdbcType="DOUBLE" />
+      <result column="tb_price" property="tbPrice" jdbcType="DOUBLE" />
+      <result column="tb_money_amt" property="tbMoneyAmt" jdbcType="DOUBLE" />
+      <result column="tb_ispresent" property="tbIspresent" jdbcType="INTEGER" />
+    </collection>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    tb_billno, tb_billdate, tb_customer, tb_customer_address, tb_buyer, tb_maker, tb_deptname, 
+    tb_permitter, tb_permit_date, tb_creat_time, tb_remark
+  </sql>
+
+  <select id="queryAll" resultMap="base">
+     select  stock_order.tb_billno, tb_billdate, tb_customer, tb_customer_address, tb_buyer, tb_maker, tb_deptname,
+    tb_permitter, tb_permit_date, tb_creat_time, tb_remark,
+      tb_line_id, tb_prodname, tb_amount, tb_price, tb_money_amt, tb_ispresent
+
+    from stock_order left join stockorder_detail on stock_order.tb_billno = stockorder_detail.tb_billno
+
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock_order
+    where tb_billno = #{tbBillno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from stock_order
+    where tb_billno = #{tbBillno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.accp.pojo.StockOrder" >
+    insert into stock_order (tb_billno, tb_billdate, tb_customer, 
+      tb_customer_address, tb_buyer, tb_maker, 
+      tb_deptname, tb_permitter, tb_permit_date, 
+      tb_creat_time, tb_remark)
+    values (#{tbBillno,jdbcType=VARCHAR}, #{tbBilldate,jdbcType=DATE}, #{tbCustomer,jdbcType=VARCHAR}, 
+      #{tbCustomerAddress,jdbcType=VARCHAR}, #{tbBuyer,jdbcType=VARCHAR}, #{tbMaker,jdbcType=VARCHAR}, 
+      #{tbDeptname,jdbcType=VARCHAR}, #{tbPermitter,jdbcType=VARCHAR}, #{tbPermitDate,jdbcType=DATE}, 
+      #{tbCreatTime,jdbcType=DATE}, #{tbRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.pojo.StockOrder" >
+    insert into stock_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tbBillno != null" >
+        tb_billno,
+      </if>
+      <if test="tbBilldate != null" >
+        tb_billdate,
+      </if>
+      <if test="tbCustomer != null" >
+        tb_customer,
+      </if>
+      <if test="tbCustomerAddress != null" >
+        tb_customer_address,
+      </if>
+      <if test="tbBuyer != null" >
+        tb_buyer,
+      </if>
+      <if test="tbMaker != null" >
+        tb_maker,
+      </if>
+      <if test="tbDeptname != null" >
+        tb_deptname,
+      </if>
+      <if test="tbPermitter != null" >
+        tb_permitter,
+      </if>
+      <if test="tbPermitDate != null" >
+        tb_permit_date,
+      </if>
+      <if test="tbCreatTime != null" >
+        tb_creat_time,
+      </if>
+      <if test="tbRemark != null" >
+        tb_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tbBillno != null" >
+        #{tbBillno,jdbcType=VARCHAR},
+      </if>
+      <if test="tbBilldate != null" >
+        #{tbBilldate,jdbcType=DATE},
+      </if>
+      <if test="tbCustomer != null" >
+        #{tbCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="tbCustomerAddress != null" >
+        #{tbCustomerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tbBuyer != null" >
+        #{tbBuyer,jdbcType=VARCHAR},
+      </if>
+      <if test="tbMaker != null" >
+        #{tbMaker,jdbcType=VARCHAR},
+      </if>
+      <if test="tbDeptname != null" >
+        #{tbDeptname,jdbcType=VARCHAR},
+      </if>
+      <if test="tbPermitter != null" >
+        #{tbPermitter,jdbcType=VARCHAR},
+      </if>
+      <if test="tbPermitDate != null" >
+        #{tbPermitDate,jdbcType=DATE},
+      </if>
+      <if test="tbCreatTime != null" >
+        #{tbCreatTime,jdbcType=DATE},
+      </if>
+      <if test="tbRemark != null" >
+        #{tbRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.pojo.StockOrder" >
+    update stock_order
+    <set >
+      <if test="tbBilldate != null" >
+        tb_billdate = #{tbBilldate,jdbcType=DATE},
+      </if>
+      <if test="tbCustomer != null" >
+        tb_customer = #{tbCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="tbCustomerAddress != null" >
+        tb_customer_address = #{tbCustomerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tbBuyer != null" >
+        tb_buyer = #{tbBuyer,jdbcType=VARCHAR},
+      </if>
+      <if test="tbMaker != null" >
+        tb_maker = #{tbMaker,jdbcType=VARCHAR},
+      </if>
+      <if test="tbDeptname != null" >
+        tb_deptname = #{tbDeptname,jdbcType=VARCHAR},
+      </if>
+      <if test="tbPermitter != null" >
+        tb_permitter = #{tbPermitter,jdbcType=VARCHAR},
+      </if>
+      <if test="tbPermitDate != null" >
+        tb_permit_date = #{tbPermitDate,jdbcType=DATE},
+      </if>
+      <if test="tbCreatTime != null" >
+        tb_creat_time = #{tbCreatTime,jdbcType=DATE},
+      </if>
+      <if test="tbRemark != null" >
+        tb_remark = #{tbRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tb_billno = #{tbBillno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.pojo.StockOrder" >
+    update stock_order
+    set tb_billdate = #{tbBilldate,jdbcType=DATE},
+      tb_customer = #{tbCustomer,jdbcType=VARCHAR},
+      tb_customer_address = #{tbCustomerAddress,jdbcType=VARCHAR},
+      tb_buyer = #{tbBuyer,jdbcType=VARCHAR},
+      tb_maker = #{tbMaker,jdbcType=VARCHAR},
+      tb_deptname = #{tbDeptname,jdbcType=VARCHAR},
+      tb_permitter = #{tbPermitter,jdbcType=VARCHAR},
+      tb_permit_date = #{tbPermitDate,jdbcType=DATE},
+      tb_creat_time = #{tbCreatTime,jdbcType=DATE},
+      tb_remark = #{tbRemark,jdbcType=VARCHAR}
+    where tb_billno = #{tbBillno,jdbcType=VARCHAR}
+  </update>
+</mapper>
